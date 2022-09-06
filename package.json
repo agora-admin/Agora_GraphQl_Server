@@ -1,0 +1,30 @@
+{
+  "name": "agora-server",
+  "version": "1.0.0",
+  "description": "Agora Square server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "iazaek",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "^3.6.1",
+    "axios": "^0.26.1",
+    "bcryptjs": "^2.4.3",
+    "debug": "^4.3.3",
+    "dotenv": "^16.0.0",
+    "ethers": "^5.5.3",
+    "fs": "^0.0.1-security",
+    "graphql": "^16.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
+    "mongoose": "^6.1.4",
+    "nodemon": "^2.0.15",
+    "open-graph-scraper": "^4.11.0",
+    "uuid4": "^2.0.2",
+    "web3": "^1.7.3"
+  }
+}
