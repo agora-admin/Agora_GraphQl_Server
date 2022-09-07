@@ -57,7 +57,7 @@ const getUsername = (user) => {
 
 const tweetCreated = async (data) => {
     await axios.post(`${process.env.ADMIN_SERVER_URL}/tweet`, {
-    status: `#NewDiscourse  ${data.title} \n#Speakers  ${getUsername(data.speakers[0].username)} & ${getUsername(data.speakers[1].username)} \n#Funding till ${formatDate(new Date(+data.endTS * 1000))} \n\nhttps://discourses.agorasquare.io/${data.id}`,
+    status: `#NewDiscourse  ${data.title} \n#Speakers  ${getUsername(data.speakers[0].username)} & ${getUsername(data.speakers[1].username)} \n#Funding till ${formatDate(new Date(+data.endTS * 1000))} \n\nhttps://discourses.agorasquare.xyz/${data.id}`,
     },{
         headers: {
             Authorization: `Bearer ${process.env.ADMIN_SERVER_TOKEN}`
@@ -67,7 +67,7 @@ const tweetCreated = async (data) => {
 }
 const tweetSpeakerConfirmed = async (data) => {
     await axios.post(`${process.env.ADMIN_SERVER_URL}/tweet`, {
-    status: `#Update Speakers confirmed ✅\n#Raised  ${getFundTotal(data.funds)} #ETH 💰 \n\n#Discourse  ${data.title} \n#Speakers  ${getUsername(data.speakers[0].username)} & ${getUsername(data.speakers[1].username)} \n#Funding till ${formatDate(new Date(+data.endTS * 1000))} \n\nhttps://discourses.agorasquare.io/${data.id}`,
+    status: `#Update Speakers confirmed ✅\n#Raised  ${getFundTotal(data.funds)} #ETH 💰 \n\n#Discourse  ${data.title} \n#Speakers  ${getUsername(data.speakers[0].username)} & ${getUsername(data.speakers[1].username)} \n#Funding till ${formatDate(new Date(+data.endTS * 1000))} \n\nhttps://discourses.agorasquare.xyz/${data.id}`,
     },{
         headers: {
             Authorization: `Bearer ${process.env.ADMIN_SERVER_TOKEN}`
@@ -78,7 +78,7 @@ const tweetSpeakerConfirmed = async (data) => {
 
 const tweetHappening = async (data) => {
     await axios.post(`${process.env.ADMIN_SERVER_URL}/tweet`, {
-    status: `#Update Happening Now 📢\n#Raised  ${getFundTotal(data.funds)} #ETH 💰 \n\n#Discourse  ${data.title} \n#Speakers  ${getUsername(data.speakers[0].username)} & ${getUsername(data.speakers[1].username)} \n\nJoin Here https://discourses.agorasquare.io/${data.id}`,
+    status: `#Update Happening Now 📢\n#Raised  ${getFundTotal(data.funds)} #ETH 💰 \n\n#Discourse  ${data.title} \n#Speakers  ${getUsername(data.speakers[0].username)} & ${getUsername(data.speakers[1].username)} \n\nJoin Here https://discourses.agorasquare.xyz/${data.id}`,
     },{
         headers: {
             Authorization: `Bearer ${process.env.ADMIN_SERVER_TOKEN}`
@@ -95,7 +95,7 @@ const tweetHappening = async (data) => {
 
 const tweetTerminated = async (data) => {
     await axios.post(`${process.env.ADMIN_SERVER_URL}/tweet`, {
-    status: `#Update Discourse Terminated ❌\n#Raised  ${getFundTotal(data.funds)} #ETH 💰 \n\n#Discourse  ${data.title} \n#Speakers  ${getUsername(data.speakers[0].username)} & ${getUsername(data.speakers[1].username)} \n\nPledges can be withdrawn from the discourse page ⬇️  \nhttps://discourses.agorasquare.io/${data.id}`,
+    status: `#Update Discourse Terminated ❌\n#Raised  ${getFundTotal(data.funds)} #ETH 💰 \n\n#Discourse  ${data.title} \n#Speakers  ${getUsername(data.speakers[0].username)} & ${getUsername(data.speakers[1].username)} \n\nPledges can be withdrawn from the discourse page ⬇️  \nhttps://discourses.agorasquare.xyz/${data.id}`,
     },{
         headers: {
             Authorization: `Bearer ${process.env.ADMIN_SERVER_TOKEN}`
@@ -105,7 +105,7 @@ const tweetTerminated = async (data) => {
 }
 const tweetScheduled = async (data) => {
     await axios.post(`${process.env.ADMIN_SERVER_URL}/tweet`, {
-    status: `#Update Discourse Scheduled 🕐\nat ${formatDate(new Date(data.discourse.meet_date))}  ${getTimeFromDate(new Date(data.discourse.meet_date))} \n\n#Discourse  ${data.title} \n#Speakers  ${getUsername(data.speakers[0].username)} & ${getUsername(data.speakers[1].username)} \n\nhttps://discourses.agorasquare.io/${data.id}`,
+    status: `#Update Discourse Scheduled 🕐\nat ${formatDate(new Date(data.discourse.meet_date))}  ${getTimeFromDate(new Date(data.discourse.meet_date))} \n\n#Discourse  ${data.title} \n#Speakers  ${getUsername(data.speakers[0].username)} & ${getUsername(data.speakers[1].username)} \n\nhttps://discourses.agorasquare.xyz/${data.id}`,
     },{
         headers: {
             Authorization: `Bearer ${process.env.ADMIN_SERVER_TOKEN}`
@@ -116,7 +116,7 @@ const tweetScheduled = async (data) => {
 
 const tweetCompleted = async (data) => {
     await axios.post(`${process.env.ADMIN_SERVER_URL}/tweet`, {
-    status: `#Update Discourse Completed ✅\n#Funds  ${getFundTotal(data.funds)} #ETH 💰 \n\n#Discourse  ${data.title} \n#Speakers  ${getUsername(data.speakers[0].username)} & ${getUsername(data.speakers[1].username)} \n\nStakes can be withdrawn from the discourse page ⬇️  \nhttps://discourses.agorasquare.io/${data.id}`,
+    status: `#Update Discourse Completed ✅\n#Funds  ${getFundTotal(data.funds)} #ETH 💰 \n\n#Discourse  ${data.title} \n#Speakers  ${getUsername(data.speakers[0].username)} & ${getUsername(data.speakers[1].username)} \n\nStakes can be withdrawn from the discourse page ⬇️  \nhttps://discourses.agorasquare.xyz/${data.id}`,
     },{
         headers: {
             Authorization: `Bearer ${process.env.ADMIN_SERVER_TOKEN}`
@@ -127,7 +127,7 @@ const tweetCompleted = async (data) => {
 
 const tweetFundClaimable = async (data) => {
     await axios.post(`${process.env.ADMIN_SERVER_URL}/tweet`, {
-        status: `#Update Speakers Joined ✅\n#Funds  ${getFundTotal(data.funds)} #ETH 💰 \n\n#Discourse  ${data.title} \n#Speakers  ${getUsername(data.speakers[0].username)} & ${getUsername(data.speakers[1].username)} \n\n\nhttps://discourses.agorasquare.io/${data.id}`,
+        status: `#Update Speakers Joined ✅\n#Funds  ${getFundTotal(data.funds)} #ETH 💰 \n\n#Discourse  ${data.title} \n#Speakers  ${getUsername(data.speakers[0].username)} & ${getUsername(data.speakers[1].username)} \n\n\nhttps://discourses.agorasquare.xyz/${data.id}`,
         },{
             headers: {
                 Authorization: `Bearer ${process.env.ADMIN_SERVER_TOKEN}`
