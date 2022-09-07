@@ -50,7 +50,7 @@ module.exports = {
             var expDate = new Date(exp);
 
             context.res.set('Set-Cookie', [
-                `meetToken=${token}; Max-Age=86400 ${process.env.NODE_ENV === 'development' ? '' : '; Domain=.agorasquare.io'};`,
+                `meetToken=${token}; Max-Age=86400 ${process.env.NODE_ENV === 'development' ? '' : '; Domain=.agorasquare.xyz'};`,
             ])
 
             return {

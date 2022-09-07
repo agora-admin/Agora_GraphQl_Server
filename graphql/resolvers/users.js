@@ -50,7 +50,7 @@ module.exports = {
 
 
             context.res.set('Set-Cookie', [
-                `jwt=${token}; Max-Age=86400 ${process.env.NODE_ENV === 'development' ? '' : '; Domain=.agorasquare.io'};`,
+                `jwt=${token}; Max-Age=86400 ${process.env.NODE_ENV === 'development' ? '' : '; Domain=.agorasquare.xyz'};`,
             ])
 
 
@@ -133,7 +133,7 @@ module.exports = {
             const token = generateToken(res);
 
             context.res.set('Set-Cookie', [
-                `jwt=${token}; Max-Age=86400 ${process.env.NODE_ENV === 'development' ? '' : '; Domain=.agorasquare.io'};`,
+                `jwt=${token}; Max-Age=86400 ${process.env.NODE_ENV === 'development' ? '' : '; Domain=.agorasquare.xyz'};`,
             ])
 
             return {
