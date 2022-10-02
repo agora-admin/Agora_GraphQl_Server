@@ -83,7 +83,8 @@ module.exports = {
 
     Mutation: {
         async createUserData(_, { userDataInput }, context) {
-            // console.log(context.req.headers, " token");
+            console.log("DEBUG 1 ---------");
+            console.log({userDataInput});
             const user = checkAuth(context);
 
             let name = userDataInput.name;
@@ -132,6 +133,8 @@ module.exports = {
             });
 
             const userData = await newData.save();
+            console.log("DEBUG 2 ----------");
+            console.log({userData});
 
             return userData;
         },

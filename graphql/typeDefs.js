@@ -262,6 +262,7 @@ module.exports = gql`
         topics: [String]
         funds: [Fund]
         irl: Boolean
+        yt_link: String
         status: DiscourseStatus
         txnHash: String
         discourse: DiscourseDiscourse

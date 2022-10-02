@@ -28,6 +28,7 @@ const discourseSchema = new Schema({
         txnHash: String
     }],
     irl: Boolean,
+    yt_link: String,
     status: {
         disputed: Boolean,
         completed: Boolean,

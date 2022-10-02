@@ -43,7 +43,6 @@ module.exports = {
                 logr.error(err);
                 throw new Error('Error getting user token');
             })
-                ;
 
             var date = new Date();
             var exp = date.getTime() + (24 * 60 * 60 * 1000);
