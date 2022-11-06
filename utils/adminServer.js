@@ -12,6 +12,18 @@ const setSpeakerAddress = async (data) => {
     });
 }
 
+const setSchedule = async (data) => {
+    let url = `${process.env.ADMIN_SERVER_URL}/${data.chainId}/setSchedule`
+    return axios.post(url, {
+        id: data.id,
+        timestamp: data.timestamp
+    }, {
+        headers: {
+            Authorization: `Bearer ${process.env.ADMIN_SERVER_TOKEN}`
+        }
+    });
+}
+
 const terminateDiscourse = async (data) => {
     let url = `${process.env.ADMIN_SERVER_URL}/${data.chainId}/terminateProposal`
     return axios.post(url, {
@@ -34,6 +46,7 @@ const isDisputed = async (data) => {
 
 module.exports = {
     setSpeakerAddress,
+    setSchedule,
     terminateDiscourse,
     isDisputed
 }

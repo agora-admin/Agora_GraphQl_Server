@@ -3,6 +3,7 @@ const Discourse = require('../../models/Discourse');
 const Slot = require('../../models/DiscourseSlot');
 const { scheduleMeetCreation } = require('../../utils/meetCreator');
 const { tweetScheduled } = require('../../utils/tweeter');
+const {setSchedule} = require('../../utils/adminServer')
 
 module.exports = {
     Query: {
@@ -111,6 +112,13 @@ module.exports = {
             await slot.save();
 
             discourse.discourse.meet_date = slotInput.slots.find(s => s.accepted == true).timestamp;
+
+            try{
+                const timestamp = (new Date(discourse.discourse.meet_date)).getTime()
+                await setSchedule({id: discourse.propId,timestamp: (timestamp/1000),chainId: discourse.chainId})
+            }catch(err){
+                console.log(err);
+            }
 
             await discourse.save();
             if(!discourse.irl) {
