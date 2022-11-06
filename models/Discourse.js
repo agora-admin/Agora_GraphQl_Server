@@ -11,6 +11,11 @@ const discourseSchema = new Schema({
             image_url: String
         }
     ],
+    moderator: {
+        name: String,
+        username: String,
+        image_url: String
+    },
     propId: Number,
     chainId: Number,
     description: String,

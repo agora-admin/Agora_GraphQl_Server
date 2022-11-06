@@ -217,6 +217,7 @@ module.exports = gql`
 
     input DiscourseInput {
         speakers: [SpeakersInput]
+        moderator: ModeratorInput
         propId: Int
         chainId: Int
         description: String
@@ -241,6 +242,12 @@ module.exports = gql`
         image_url: String
     }
 
+    input ModeratorInput {
+        name: String
+        username: String
+        image_url: String
+    }
+
     input FundInput {
         address: String!
         amount: Int!
@@ -252,6 +259,7 @@ module.exports = gql`
         title: String!
         description: String!
         speakers: [Speaker]
+        moderator: Moderator
         propId: Int
         chainId: Int
         prop_description: String
@@ -358,6 +366,12 @@ module.exports = gql`
         address: String
         confirmed: Boolean
         isTwitterHandle: Boolean
+        image_url: String
+    }
+
+    type Moderator {
+        name: String
+        username: String
         image_url: String
     }
 

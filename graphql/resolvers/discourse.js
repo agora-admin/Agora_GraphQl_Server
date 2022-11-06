@@ -133,6 +133,7 @@ module.exports = {
 
             const newDiscourse = new Discourse({
                 speakers: discourseInput.speakers,
+                moderator: discourseInput.moderator,
                 propId: discourseInput.propId,
                 chainId: discourseInput.chainId,
                 description: discourseInput.description,
@@ -169,13 +170,7 @@ module.exports = {
             });
 
             const result = await newDiscourse.save();
-
             await tweetCreated(result);
-
-            // await axios.post(`http://localhost:3000/tweet`, {
-            //     status: `${result.title} - [ ${result.} ]`,
-            // })
-            //     .then
 
             return result;
         },
