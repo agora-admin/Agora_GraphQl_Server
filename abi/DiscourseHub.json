@@ -280,7 +280,7 @@
                 "type": "uint256"
             }
         ],
-        "name": "disputeDiscourse",
+        "name": "enterDiscourse",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
@@ -289,11 +289,30 @@
         "inputs": [
             {
                 "internalType": "uint256",
-                "name": "propId",
+                "name": "_propId",
                 "type": "uint256"
             }
         ],
-        "name": "enterDiscourse",
+        "name": "isDisputed",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_propId",
+                "type": "uint256"
+            }
+        ],
+        "name": "raiseDispute",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
@@ -411,7 +430,7 @@
         "outputs": [
             {
                 "internalType": "address[2]",
-                "name": "addresses",
+                "name": "",
                 "type": "address[2]"
             }
         ],
@@ -435,7 +454,7 @@
         "outputs": [
             {
                 "internalType": "address",
-                "name": "_address",
+                "name": "",
                 "type": "address"
             }
         ],
@@ -454,7 +473,7 @@
         "outputs": [
             {
                 "internalType": "uint256",
-                "name": "_deadline",
+                "name": "",
                 "type": "uint256"
             }
         ],
@@ -473,7 +492,7 @@
         "outputs": [
             {
                 "internalType": "uint256",
-                "name": "_speakerConfirmations",
+                "name": "",
                 "type": "uint256"
             }
         ],
@@ -492,7 +511,7 @@
         "outputs": [
             {
                 "internalType": "uint256",
-                "name": "_index",
+                "name": "",
                 "type": "uint256"
             }
         ],
@@ -511,7 +530,7 @@
         "outputs": [
             {
                 "internalType": "bool",
-                "name": "_fundUnlocked",
+                "name": "",
                 "type": "bool"
             }
         ],
@@ -535,7 +554,7 @@
         "outputs": [
             {
                 "internalType": "bool",
-                "name": "_isSpeakerAddressSet",
+                "name": "",
                 "type": "bool"
             }
         ],
@@ -559,7 +578,7 @@
         "outputs": [
             {
                 "internalType": "bool",
-                "name": "_isSpeakerConfirmed",
+                "name": "",
                 "type": "bool"
             }
         ],
@@ -758,7 +777,7 @@
         "outputs": [
             {
                 "internalType": "address",
-                "name": "_addressA",
+                "name": "",
                 "type": "address"
             }
         ],
@@ -777,7 +796,7 @@
         "outputs": [
             {
                 "internalType": "address",
-                "name": "_addressB",
+                "name": "",
                 "type": "address"
             }
         ],
@@ -796,7 +815,7 @@
         "outputs": [
             {
                 "internalType": "string",
-                "name": "_description",
+                "name": "",
                 "type": "string"
             }
         ],
@@ -815,7 +834,7 @@
         "outputs": [
             {
                 "internalType": "uint256",
-                "name": "_endTS",
+                "name": "",
                 "type": "uint256"
             }
         ],
@@ -834,57 +853,57 @@
         "outputs": [
             {
                 "internalType": "address",
-                "name": "_addressA",
+                "name": "",
                 "type": "address"
             },
             {
                 "internalType": "address",
-                "name": "_addressB",
+                "name": "",
                 "type": "address"
             },
             {
                 "internalType": "bytes32",
-                "name": "_twitterHandleA",
+                "name": "",
                 "type": "bytes32"
             },
             {
                 "internalType": "bytes32",
-                "name": "_twitterHandleB",
+                "name": "",
                 "type": "bytes32"
             },
             {
                 "internalType": "address",
-                "name": "_proposalStarter",
+                "name": "",
                 "type": "address"
             },
             {
                 "internalType": "string",
-                "name": "_description",
+                "name": "",
                 "type": "string"
             },
             {
                 "internalType": "uint256",
-                "name": "_propId",
+                "name": "",
                 "type": "uint256"
             },
             {
                 "internalType": "uint256",
-                "name": "currentValue",
+                "name": "",
                 "type": "uint256"
             },
             {
                 "internalType": "uint8",
-                "name": "_charityPercent",
+                "name": "",
                 "type": "uint8"
             },
             {
                 "internalType": "uint256",
-                "name": "_initTS",
+                "name": "",
                 "type": "uint256"
             },
             {
                 "internalType": "uint256",
-                "name": "_endTS",
+                "name": "",
                 "type": "uint256"
             }
         ],
@@ -903,7 +922,7 @@
         "outputs": [
             {
                 "internalType": "uint256",
-                "name": "_fundsRaised",
+                "name": "",
                 "type": "uint256"
             }
         ],
@@ -922,7 +941,7 @@
         "outputs": [
             {
                 "internalType": "address",
-                "name": "_proposalStarter",
+                "name": "",
                 "type": "address"
             }
         ],
@@ -941,7 +960,7 @@
         "outputs": [
             {
                 "internalType": "uint256",
-                "name": "_startTS",
+                "name": "",
                 "type": "uint256"
             }
         ],
@@ -954,7 +973,7 @@
         "outputs": [
             {
                 "internalType": "uint256",
-                "name": "_totalProposals",
+                "name": "",
                 "type": "uint256"
             }
         ],
@@ -973,7 +992,7 @@
         "outputs": [
             {
                 "internalType": "bytes32",
-                "name": "_twitterHandleA",
+                "name": "",
                 "type": "bytes32"
             }
         ],
@@ -992,7 +1011,7 @@
         "outputs": [
             {
                 "internalType": "bytes32",
-                "name": "_twitterHandleB",
+                "name": "",
                 "type": "bytes32"
             }
         ],
@@ -1016,7 +1035,7 @@
         "outputs": [
             {
                 "internalType": "uint256",
-                "name": "_pledge",
+                "name": "",
                 "type": "uint256"
             }
         ],
@@ -1035,7 +1054,7 @@
         "outputs": [
             {
                 "internalType": "uint256",
-                "name": "_charityPercent",
+                "name": "",
                 "type": "uint256"
             }
         ],
@@ -1134,7 +1153,7 @@
         "outputs": [
             {
                 "internalType": "uint256",
-                "name": "_amount",
+                "name": "",
                 "type": "uint256"
             }
         ],
@@ -1166,7 +1185,7 @@
         "outputs": [
             {
                 "internalType": "uint256",
-                "name": "_amount",
+                "name": "",
                 "type": "uint256"
             }
         ],
@@ -1185,7 +1204,7 @@
         "outputs": [
             {
                 "internalType": "uint256",
-                "name": "_amount",
+                "name": "",
                 "type": "uint256"
             }
         ],
@@ -1204,7 +1223,7 @@
         "outputs": [
             {
                 "internalType": "uint256",
-                "name": "_amount",
+                "name": "",
                 "type": "uint256"
             }
         ],
@@ -1223,7 +1242,7 @@
         "outputs": [
             {
                 "internalType": "uint256",
-                "name": "_value",
+                "name": "",
                 "type": "uint256"
             }
         ],
@@ -1280,6 +1299,211 @@
         "name": "withdrawPledge",
         "outputs": [],
         "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "propId",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "tokenContract",
+                "type": "address"
+            }
+        ],
+        "name": "NFTCreated",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "propId",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "tokenContract",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "id",
+                "type": "uint256"
+            }
+        ],
+        "name": "NFTMinted",
+        "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "_contractName",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "_uri",
+                "type": "string"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_propId",
+                "type": "uint256"
+            }
+        ],
+        "name": "deployNFTContract",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_propId",
+                "type": "uint256"
+            },
+            {
+                "internalType": "address",
+                "name": "user",
+                "type": "address"
+            }
+        ],
+        "name": "getHasClaimedNFT",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_propId",
+                "type": "uint256"
+            }
+        ],
+        "name": "getNFTAdmin",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_propId",
+                "type": "uint256"
+            }
+        ],
+        "name": "getNFTTokenAddress",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_propId",
+                "type": "uint256"
+            }
+        ],
+        "name": "getTotalNFTClaimedCount",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_propId",
+                "type": "uint256"
+            }
+        ],
+        "name": "getTotalNFTSupply",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_propId",
+                "type": "uint256"
+            }
+        ],
+        "name": "mintPledgerNFT",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_propId",
+                "type": "uint256"
+            }
+        ],
+        "name": "mintSpeakerNFT",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "payable",
         "type": "function"
     },
     {
