@@ -624,7 +624,7 @@ module.exports = gql`
 
         getDiscourse(propId: Int!, chainId: Int!): Discourse!
         getDiscourses: [Discourse]!
-        getDiscoursesByChainID(chainId: Int!): [Discourse]!
+        getDiscoursesByChainID(chainId: [Int]!): [Discourse]!
         getDiscourseById(id: ID!): Discourse!
 
         getDaoNonce(walletAddress: String!): DaoNonce!
