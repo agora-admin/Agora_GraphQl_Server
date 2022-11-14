@@ -55,9 +55,13 @@ const getUsername = (user) => {
     return '@' + user;
 }
 
+const checkModerator = (moderator) => {
+    return moderator ? `#Moderator ${getUsername(moderator)}` : '';
+}
+
 const tweetCreated = async (data) => {
     await axios.post(`${process.env.ADMIN_SERVER_URL}/tweet`, {
-    status: `#NewDiscourse  ${data.title} \n#Speakers  ${getUsername(data.speakers[0].username)} & ${getUsername(data.speakers[1].username)} \n#Moderator ${getUsername(data.moderator.username)} \n#Funding till ${formatDate(new Date(+data.endTS * 1000))} \n\nhttps://discourses.agorasquare.xyz/${data.id}`,
+    status: `#NewDiscourse  ${data.title} \n#Speakers  ${getUsername(data.speakers[0].username)} & ${getUsername(data.speakers[1].username)} \n${checkModerator(data.moderator.username)} \n#Funding till ${formatDate(new Date(+data.endTS * 1000))} \n\nhttps://discourses.agorasquare.xyz/${data.id}`,
     },{
         headers: {
             Authorization: `Bearer ${process.env.ADMIN_SERVER_TOKEN}`
