@@ -115,7 +115,7 @@ module.exports = {
 
             try{
                 const timestamp = (new Date(discourse.discourse.meet_date)).getTime()
-                await setSchedule({id: discourse.propId,timestamp: (timestamp/1000),chainId: discourse.chainId})
+                await setSchedule({id: discourse.propId,timestamp: parseInt((timestamp/1000)),chainId: discourse.chainId})
             }catch(err){
                 console.log(err);
             }
