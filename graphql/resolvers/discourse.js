@@ -450,7 +450,7 @@ module.exports = {
             discourse.discourse.confirmation.push(user.walletAddress);
             discourse.discourse.c_timestamp = new Date().toISOString();
 
-            const stream = await Stream.findOne({ propId, chainId });
+            let stream = await Stream.findOne({ propId, chainId });
 
             if (stream) {
                 if (!stream.active) {
