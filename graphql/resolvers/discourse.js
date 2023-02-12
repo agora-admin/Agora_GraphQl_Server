@@ -144,6 +144,7 @@ module.exports = {
                 initTS: discourseInput.initTS,
                 endTS: discourseInput.endTS,
                 topics: discourseInput.topics,
+                initialFunding: discourseInput.initialFunding,
                 funds: [
                     {
                         address: user.walletAddress,
@@ -153,6 +154,7 @@ module.exports = {
                     }
                 ],
                 irl: discourseInput.irl,
+                disable: discourseInput.disable,
                 status: {
                     disputed: false,
                     completed: false,
@@ -272,8 +274,9 @@ module.exports = {
         },
 
         async setWalletAddress(_, { propId, chainId }, context) {
+            console.log("In setWalletAddress: ",{propId,chainId});
             const user = checkAuth(context);
-
+            console.log("User: ",user);
             const discourse = await Discourse.findOne({ propId, chainId });
             const userData = await UserData.findOne({ walletAddress: user.walletAddress });
 
@@ -301,9 +304,9 @@ module.exports = {
                 if (res.status !== 200) {
                     throw new Error('Error while setting address');
                 }
+
                 discourse.speakers[0].address = user.walletAddress;
-            }
-            if (userData.twitter.twitter_handle === discourse.speakers[1].username) {
+            } else {
                 let res = await setSpeakerAddress({
                     id: discourse.propId,
                     address: user.walletAddress,

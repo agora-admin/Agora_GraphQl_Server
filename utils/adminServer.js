@@ -1,6 +1,8 @@
 const axios = require('axios').default;
+
 const setSpeakerAddress = async (data) => {
     let url = `${process.env.ADMIN_SERVER_URL}/${data.chainId}/setSpeaker`
+    
     return axios.post(url, {
         id: data.id,
         handle: data.handle,

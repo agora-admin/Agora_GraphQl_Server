@@ -14,30 +14,18 @@ module.exports = {
 
     Mutation: {
         async createEvent(_, { eventInput }, context) {
-            const discourse = await Discourse.findOne({ propId: eventInput.propId, chainId: eventInput.chainId })
-
+            console.log("EventInput: ",eventInput)
+            const discourse = await Discourse.findOne({ _id: eventInput.discourseId })
+            console.log("Discourse Found: ",discourse);
+            
             if (!discourse) {
                 throw new Error("Discourse not found")
             }
 
-            if (discourse.status.terminated) {
-                throw new Error("Discourse is terminated")
-            }
-
-            if (discourse.status.completed) {
-                throw new Error("Discourse is completed")
-            }
-
-            if (!discourse.irl) {
-                throw new Error("Discourse is not irl")
-            }
-
-            console.log('discourse', discourse.title);
-
             const event = new Events({
-                discourseId: discourse._id,
-                propId: eventInput.propId,
-                chainId: eventInput.chainId,
+                discourseId: eventInput.discourseId,
+                propId: discourse.propId,
+                chainId: discourse.chainId,
                 eventTimestamp: eventInput.eventTimestamp,
                 venue: eventInput.venue
             })

@@ -231,6 +231,7 @@ module.exports = gql`
         topics: [String]
         initialFunding: String
         txnHash: String
+        disable: Boolean
     }
 
     input SpeakersInput {
@@ -325,8 +326,6 @@ module.exports = gql`
 
     input EventInput {
         discourseId: ID
-        propId: Int
-        chainId: Int
         eventTimestamp: String
         venue: VenueInput
     }

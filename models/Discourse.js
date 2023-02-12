@@ -35,6 +35,7 @@ const discourseSchema = new Schema({
     irl: Boolean,
     yt_link: String,
     link: String,
+    spaces_link: String,
     disable: Boolean,
     status: {
         disputed: Boolean,
