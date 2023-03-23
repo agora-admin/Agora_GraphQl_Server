@@ -4,7 +4,7 @@ files:
   - source: /
     destination: /home/ec2-user/agora-main
 hooks: 
-  ApplicationStep:
+  ApplicationStop:
     - location: scripts/application_stop.sh
       timeout: 400
       runas: ec2-user
