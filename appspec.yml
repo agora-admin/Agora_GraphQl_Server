@@ -3,6 +3,7 @@ os: linux
 files:
   - source: /
     destination: /home/ec2-user/agora-main
+file_exists_behavior: OVERWRITE
 hooks: 
  
   BeforeInstall:
