@@ -29,7 +29,7 @@ const scheduleDiscourseCompletion = (data, timestamp) => {
 
     var targetDate = new Date(timestamp);
     var diff = targetDate.getTime() - new Date().getTime();
-    setTimeout(endDiscourse, diff + 3600, data);
+    setTimeout(endDiscourse, diff + 259200000, data);
 }
 
 const endDiscourse = async(data) => {
