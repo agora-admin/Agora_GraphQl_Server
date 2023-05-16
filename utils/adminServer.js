@@ -10,7 +10,7 @@ const setSpeakerAddress = async (data) => {
     }, {
         headers: {
             Authorization: `Bearer ${process.env.ADMIN_SERVER_TOKEN}`
-        }
+        },
     });
 }
 

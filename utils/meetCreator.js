@@ -1,7 +1,7 @@
 const axios = require('axios').default;
 const Discourse = require('../models/Discourse');
 const logr  = require ('../utils/logger');
-const { tweetHappening } = require('./tweeter');
+const { tweetHappening, tweetCompleted } = require('./tweeter');
 const { getMToken } = require('./management');
 
 const createTimedMeet = (data) => {
@@ -23,6 +23,28 @@ const scheduleMeetCreation = (data, timestamp) => {
         return;
     }
     setTimeout(createRawMeet, diff, data);
+}
+
+const scheduleDiscourseCompletion = (data, timestamp) => {
+
+    var targetDate = new Date(timestamp);
+    var diff = targetDate.getTime() - new Date().getTime();
+    setTimeout(endDiscourse, diff + 3600, data);
+}
+
+const endDiscourse = async(data) => {
+    const discourse = await Discourse.findById(data.id);
+            if (!discourse) {
+                throw new Error('Discourse not found');
+            }
+
+            discourse.status.completed = true;
+            discourse.discourse.ended = true;
+
+            await discourse.save();
+            await tweetCompleted(discourse);
+
+            return "done";
 }
 
 const createRawMeet = async (data) => {
@@ -71,5 +93,6 @@ const createRawMeet = async (data) => {
 
 module.exports = {
     createTimedMeet,
-    scheduleMeetCreation
+    scheduleMeetCreation,
+    scheduleDiscourseCompletion
 }

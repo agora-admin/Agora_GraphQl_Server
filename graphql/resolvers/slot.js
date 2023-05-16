@@ -1,7 +1,7 @@
 const checkAuth = require('../../utils/check-auth');
 const Discourse = require('../../models/Discourse');
 const Slot = require('../../models/DiscourseSlot');
-const { scheduleMeetCreation } = require('../../utils/meetCreator');
+const { scheduleMeetCreation, scheduleDiscourseCompletion } = require('../../utils/meetCreator');
 const { tweetScheduled } = require('../../utils/tweeter');
 const {setSchedule} = require('../../utils/adminServer')
 
@@ -61,9 +61,9 @@ module.exports = {
                 throw new Error('Discourse not found');
             }
 
-            if (discourse.irl) {
-                throw new Error('Discourse is irl');
-            }
+            // if (discourse.irl) {
+            //     throw new Error('Discourse is irl');
+            // }
 
             const slot = await Slot.findOne({ propId: slotInput.propId, chainId: slotInput.chainId });
             if (!slot) {
@@ -121,9 +121,10 @@ module.exports = {
             }
 
             await discourse.save();
-            if(!discourse.irl) {
-                scheduleMeetCreation(discourse, discourse.discourse.meet_date);
-            }
+            // if(!discourse.irl) {
+            // scheduleMeetCreation(discourse, discourse.discourse.meet_date);
+            // }
+            scheduleDiscourseCompletion(discourse, discourse.discourse.meet_date);
             await tweetScheduled(discourse);
 
             return slot;
