@@ -9,7 +9,7 @@ sudo rm -R /var/cache/yum/x86_64/2/nodesource/
 curl -sL https://rpm.nodesource.com/setup_16.x | sudo -E bash -
 sudo yum install -y nodejs
 
-#allow port 80 to run
+#allow port to run
 sudo yum install libcap2-bin 
 sudo setcap cap_net_bind_service=+ep `readlink -f \`which node\``
 
