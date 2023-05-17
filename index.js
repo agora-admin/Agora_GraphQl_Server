@@ -23,7 +23,7 @@ require('dotenv').config();
 
 const MONGODB = process.env.MONGODB;
 
-const PORT = process.env.PORT || 443;
+const PORT = process.env.PORT || 80;
 const HOST = "0.0.0.0";
 
 const server = new ApolloServer({
