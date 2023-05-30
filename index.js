@@ -53,7 +53,7 @@ const server = new ApolloServer({
   },
   cors: {
     credentials: true,
-    origin: process.env.NODE_ENV === "development"? 
+    origin: process.env.NODE_ENV === "localdevelopment"? 
     ["http://localhost:3000", "https://studio.apollographql.com"] 
     : 
     ['https://agorasquare.xyz', 'https://www.agorasquare.xyz','https://discourses.agorasquare.xyz', 'https://testnet.discourses.agorasquare.xyz'],
