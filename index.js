@@ -56,7 +56,7 @@ const server = new ApolloServer({
     origin: process.env.NODE_ENV === "localdevelopment"? 
     ["http://localhost:3000", "https://studio.apollographql.com"] 
     : 
-    ['https://agorasquare.xyz', 'https://www.agorasquare.xyz','https://discourses.agorasquare.xyz', 'https://testnet.discourses.agorasquare.xyz'],
+    ['https://agorasquare.xyz', 'https://www.agorasquare.xyz', 'https://testnet.discourses.agorasquare.xyz'],
   },
   introspection: process.env.NODE_ENV === "development" ? true : false,
 });
