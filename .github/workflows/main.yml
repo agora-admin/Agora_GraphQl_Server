@@ -39,4 +39,4 @@ jobs:
         docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
     - name: Update kube config
-      run: aws eks update-kubeconfig --name sample
+      run: aws eks update-kubeconfig --name agora-dev-cluster
