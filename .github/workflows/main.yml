@@ -8,6 +8,19 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env: 
+      MONGODB : ${{secrets.MONGODB}}
+      SECRET_KEY: ${{secrets.SECRET_KEY}}
+      HMS_APP_ACCESS_KEY: ${{secrets.HMS_APP_ACCESS_KEY}}
+      HMS_APP_SECRET: ${{secrets.HMS_APP_SECRET}}
+      NODE_ENV: ${{secrets.NODE_ENV}}
+      HMS_DISCOURSE_TEMPLATE: ${{secrets.HMS_DISCOURSE_TEMPLATE}}
+      HMS_URI: ${{secrets.HMS_URI}}
+      ADMIN_SERVER_TOKEN: ${{secrets.ADMIN_SERVER_TOKEN}}
+      LP_KEY: ${{secrets.LP_KEY}}
+      LP_BASE_URL: ${{secrets.LP_BASE_URL}}
+      HMS_BEAM_URL: ${{secrets.HMS_BEAM_URL}}
+      HMS_DOMAIN: ${{secrets.HMS_DOMAIN}}
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -40,7 +53,32 @@ jobs:
 
     - name: Update kube config
       run: aws eks update-kubeconfig --name agora-dev-cluster
-
+      
     - name: Deploy nodejs helm chart to EKS
+      env:
+        MONGODB: ${{secrets.MONGODB}}
+        SECRET_KEY: ${{secrets.SECRET_KEY}}
+        HMS_APP_ACCESS_KEY: ${{secrets.HMS_APP_ACCESS_KEY}}
+        HMS_APP_SECRET: ${{secrets.HMS_APP_SECRET}}
+        NODE_ENV: ${{secrets.NODE_ENV}}
+        HMS_DISCOURSE_TEMPLATE: ${{secrets.HMS_DISCOURSE_TEMPLATE}}
+        HMS_URI: ${{secrets.HMS_URI}}
+        ADMIN_SERVER_TOKEN: ${{secrets.ADMIN_SERVER_TOKEN}}
+        LP_KEY: ${{secrets.LP_KEY}}
+        LP_BASE_URL: ${{secrets.LP_BASE_URL}}
+        HMS_BEAM_URL: ${{secrets.HMS_BEAM_URL}}
+        HMS_DOMAIN: ${{secrets.HMS_DOMAIN}}
       run: |
-        helm install agora-server-chart ./agora-server-chart
+        helm install agora-server-chart ./agora-server-chart \
+          --set mongodb=$MONGODB \
+          --set secretKey=$SECRET_KEY \
+          --set hmsAppAccessKey=$HMS_APP_ACCESS_KEY \
+          --set hmsAppSecret=$HMS_APP_SECRET \
+          --set nodeEnv=$NODE_ENV \
+          --set hmsDiscourseTemplate=$HMS_DISCOURSE_TEMPLATE \
+          --set hmsUri=$HMS_URI \
+          --set adminServerToken=$ADMIN_SERVER_TOKEN \
+          --set lpKey=$LP_KEY \
+          --set lpBaseUrl=$LP_BASE_URL \
+          --set hmsBeamUrl=$HMS_BEAM_URL \
+          --set hmsDomain=$HMS_DOMAIN
