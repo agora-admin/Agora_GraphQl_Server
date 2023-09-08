@@ -78,16 +78,16 @@ jobs:
           HMS_DOMAIN: ${{ secrets.HMS_DOMAIN }}
         run: |
           helm install agora-server-chart ./agora-server-chart \
-            --set mongodb="$MONGODB" \
-            --set secretKey="$SECRET_KEY" \
-            --set hmsAppAccessKey="$HMS_APP_ACCESS_KEY" \
-            --set hmsAppSecret="$HMS_APP_SECRET" \
-            --set nodeEnv="$NODE_ENV" \
-            --set hmsDiscourseTemplate="$HMS_DISCOURSE_TEMPLATE" \
-            --set hmsUri="$HMS_URI" \
-            --set adminServerToken="$ADMIN_SERVER_TOKEN" \
-            --set lpKey="$LP_KEY" \
-            --set lpBaseUrl="$LP_BASE_URL" \
-            --set hmsBeamUrl="$HMS_BEAM_URL" \
-            --set hmsDomain="$HMS_DOMAIN"
+            --set MONGODB="$MONGODB" \
+            --set SECRET_KEY="$SECRET_KEY" \
+            --set HMS_APP_ACCESS_KEY="$HMS_APP_ACCESS_KEY" \
+            --set HMS_APP_SECRET="$HMS_APP_SECRET" \
+            --set NODE_ENV="$NODE_ENV" \
+            --set HMS_DISCOURSE_TEMPLATE="$HMS_DISCOURSE_TEMPLATE" \
+            --set HMS_URI="$HMS_URI" \
+            --set ADMIN_SERVER_TOKEN="$ADMIN_SERVER_TOKEN" \
+            --set LP_KEY="$LP_KEY" \
+            --set LP_BASE_URL="$LP_BASE_URL" \
+            --set HMS_BEAM_URL="$HMS_BEAM_URL" \
+            --set HMS_DOMAIN="$HMS_DOMAIN"
 
