@@ -56,21 +56,11 @@ jobs:
 
       - name: Update kube config
         run: aws eks update-kubeconfig --name agora-dev-cluster
-
-      - name: Debug Environment Variables
+          
+      - name: Uninstall existing Helm release (if it exists)
         run: |
-          echo "MONGODB: $MONGODB"
-          echo "SECRET_KEY: $SECRET_KEY"
-          echo "HMS_APP_ACCESS_KEY: $HMS_APP_ACCESS_KEY"
-          echo "HMS_APP_SECRET: $HMS_APP_SECRET"
-          echo "NODE_ENV: $NODE_ENV"
-          echo "HMS_DISCOURSE_TEMPLATE: $HMS_DISCOURSE_TEMPLATE"
-          echo "HMS_URI: $HMS_URI"
-          echo "ADMIN_SERVER_TOKEN: $ADMIN_SERVER_TOKEN"
-          echo "LP_KEY: $LP_KEY"
-          echo "LP_BASE_URL: $LP_BASE_URL"
-          echo "HMS_BEAM_URL: $HMS_BEAM_URL"
-          echo "HMS_DOMAIN: $HMS_DOMAIN"
+          helm uninstall unique-release-name || true
+          ignoreErrors: true
 
       - name: Deploy nodejs Helm chart to EKS
         env:
