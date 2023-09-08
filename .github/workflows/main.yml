@@ -1,15 +1,18 @@
-name: Node js app deploy to EKS
+name: deploy to EKS
+
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env: 
-      MONGODB : ${{secrets.MONGODB}}
+    env:
+      MONGODB: ${{secrets.MONGODB}}
       SECRET_KEY: ${{secrets.SECRET_KEY}}
       HMS_APP_ACCESS_KEY: ${{secrets.HMS_APP_ACCESS_KEY}}
       HMS_APP_SECRET: ${{secrets.HMS_APP_SECRET}}
@@ -22,80 +25,78 @@ jobs:
       HMS_BEAM_URL: ${{secrets.HMS_BEAM_URL}}
       HMS_DOMAIN: ${{secrets.HMS_DOMAIN}}
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Install kubectl
-      uses: azure/setup-kubectl@v2.0
-      with:
-        version: 'v1.27.0' # default is latest stable
-      id: install
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v2.0
+        with:
+          version: 'v1.27.0' # default is latest stable
+        id: install
 
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-2
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
 
-    - name: Login to Amazon ECR
-      id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v1
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
 
-    - name: Build, tag, and push docker image to Amazon ECR
-      env:
-        REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        REPOSITORY: agora-dev
-        IMAGE_TAG: latest
-      run: |
-        docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
-        docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+      - name: Build, tag, and push docker image to Amazon ECR
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: agora-dev
+          IMAGE_TAG: latest
+        run: |
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
-    - name: Update kube config
-      run: aws eks update-kubeconfig --name agora-dev-cluster
+      - name: Update kube config
+        run: aws eks update-kubeconfig --name agora-dev-cluster
 
-    - name: Debug Environment Variables
-      run: |
-        echo "MONGODB: $MONGODB"
-        echo "SECRET_KEY: $SECRET_KEY"
-        echo "HMS_APP_ACCESS_KEY: $HMS_APP_ACCESS_KEY"
-        echo "HMS_APP_SECRET: $HMS_APP_SECRET"
-        echo "NODE_ENV: $NODE_ENV"
-        echo "HMS_DISCOURSE_TEMPLATE: $HMS_DISCOURSE_TEMPLATE"
-        echo "HMS_URI: $HMS_URI"
-        echo "ADMIN_SERVER_TOKEN: $ADMIN_SERVER_TOKEN"
-        echo "LP_KEY: $LP_KEY"
-        echo "LP_BASE_URL: $LP_BASE_URL"
-        echo "HMS_BEAM_URL: $HMS_BEAM_URL"
-        echo "HMS_DOMAIN: $HMS_DOMAIN"
-      shell: bash
+      - name: Debug Environment Variables
+        run: |
+          echo "MONGODB: $MONGODB"
+          echo "SECRET_KEY: $SECRET_KEY"
+          echo "HMS_APP_ACCESS_KEY: $HMS_APP_ACCESS_KEY"
+          echo "HMS_APP_SECRET: $HMS_APP_SECRET"
+          echo "NODE_ENV: $NODE_ENV"
+          echo "HMS_DISCOURSE_TEMPLATE: $HMS_DISCOURSE_TEMPLATE"
+          echo "HMS_URI: $HMS_URI"
+          echo "ADMIN_SERVER_TOKEN: $ADMIN_SERVER_TOKEN"
+          echo "LP_KEY: $LP_KEY"
+          echo "LP_BASE_URL: $LP_BASE_URL"
+          echo "HMS_BEAM_URL: $HMS_BEAM_URL"
+          echo "HMS_DOMAIN: $HMS_DOMAIN"
 
-      
-    - name: Deploy nodejs helm chart to EKS
-      env:
-        MONGODB: ${{secrets.MONGODB}}
-        SECRET_KEY: ${{secrets.SECRET_KEY}}
-        HMS_APP_ACCESS_KEY: ${{secrets.HMS_APP_ACCESS_KEY}}
-        HMS_APP_SECRET: ${{secrets.HMS_APP_SECRET}}
-        NODE_ENV: ${{secrets.NODE_ENV}}
-        HMS_DISCOURSE_TEMPLATE: ${{secrets.HMS_DISCOURSE_TEMPLATE}}
-        HMS_URI: ${{secrets.HMS_URI}}
-        ADMIN_SERVER_TOKEN: ${{secrets.ADMIN_SERVER_TOKEN}}
-        LP_KEY: ${{secrets.LP_KEY}}
-        LP_BASE_URL: ${{secrets.LP_BASE_URL}}
-        HMS_BEAM_URL: ${{secrets.HMS_BEAM_URL}}
-        HMS_DOMAIN: ${{secrets.HMS_DOMAIN}}
-      run: |
-        helm install agora-server-chart ./agora-server-chart \
-          --set mongodb="$MONGODB" \
-          --set secretKey="$SECRET_KEY" \
-          --set hmsAppAccessKey="$HMS_APP_ACCESS_KEY" \
-          --set hmsAppSecret="$HMS_APP_SECRET" \
-          --set nodeEnv="$NODE_ENV" \
-          --set hmsDiscourseTemplate="$HMS_DISCOURSE_TEMPLATE" \
-          --set hmsUri="$HMS_URI" \
-          --set adminServerToken="$ADMIN_SERVER_TOKEN" \
-          --set lpKey="$LP_KEY" \
-          --set lpBaseUrl="$LP_BASE_URL" \
-          --set hmsBeamUrl="$HMS_BEAM_URL" \
-          --set hmsDomain="$HMS_DOMAIN"
+      - name: Deploy nodejs Helm chart to EKS
+        env:
+          MONGODB: ${{secrets.MONGODB}}
+          SECRET_KEY: ${{secrets.SECRET_KEY}}
+          HMS_APP_ACCESS_KEY: ${{secrets.HMS_APP_ACCESS_KEY}}
+          HMS_APP_SECRET: ${{secrets.HMS_APP_SECRET}}
+          NODE_ENV: ${{secrets.NODE_ENV}}
+          HMS_DISCOURSE_TEMPLATE: ${{secrets.HMS_DISCOURSE_TEMPLATE}}
+          HMS_URI: ${{secrets.HMS_URI}}
+          ADMIN_SERVER_TOKEN: ${{secrets.ADMIN_SERVER_TOKEN}}
+          LP_KEY: ${{secrets.LP_KEY}}
+          LP_BASE_URL: ${{secrets.LP_BASE_URL}}
+          HMS_BEAM_URL: ${{secrets.HMS_BEAM_URL}}
+          HMS_DOMAIN: ${{secrets.HMS_DOMAIN}}
+        run: |
+          helm install agora-server-chart ./agora-server-chart \
+            --set mongodb="$MONGODB" \
+            --set secretKey="$SECRET_KEY" \
+            --set hmsAppAccessKey="$HMS_APP_ACCESS_KEY" \
+            --set hmsAppSecret="$HMS_APP_SECRET" \
+            --set nodeEnv="$NODE_ENV" \
+            --set hmsDiscourseTemplate="$HMS_DISCOURSE_TEMPLATE" \
+            --set hmsUri="$HMS_URI" \
+            --set adminServerToken="$ADMIN_SERVER_TOKEN" \
+            --set lpKey="$LP_KEY" \
+            --set lpBaseUrl="$LP_BASE_URL" \
+            --set hmsBeamUrl="$HMS_BEAM_URL" \
+            --set hmsDomain="$HMS_DOMAIN"
