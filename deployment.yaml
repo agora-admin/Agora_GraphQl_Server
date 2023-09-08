@@ -44,8 +44,31 @@ spec:
             httpGet:
               path: /
               port: http
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            - name: MONGODB
+              value: $MONGODB
+            - name: SECRET_KEY
+              value: $SECRET_KEY
+            - name: HMS_APP_ACCESS_KEY
+              value: $HMS_APP_ACCESS_KEY
+            - name: HMS_APP_SECRET
+              value: $HMS_APP_SECRET
+            - name: NODE_ENV
+              value: $NODE_ENV
+            - name: HMS_DISCOURSE_TEMPLATE
+              value: $HMS_DISCOURSE_TEMPLATE
+            - name: HMS_URI
+              value: $HMS_URI
+            - name: ADMIN_SERVER_TOKEN
+              value: $ADMIN_SERVER_TOKEN
+            - name: LP_KEY
+              value: $LP_KEY
+            - name: LP_BASE_URL
+              value: $LP_BASE_URL
+            - name: HMS_BEAM_URL
+              value: $HMS_BEAM_URL
+            - name: HMS_DOMAIN
+              value: $HMS_DOMAIN
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
