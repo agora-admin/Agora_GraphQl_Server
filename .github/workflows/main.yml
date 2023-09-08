@@ -100,4 +100,4 @@ jobs:
             --set lpBaseUrl="$LP_BASE_URL" \
             --set hmsBeamUrl="$HMS_BEAM_URL" \
             --set hmsDomain="$HMS_DOMAIN"
-            --generate-name
+            --name unique-release-name
