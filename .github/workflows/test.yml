@@ -1,0 +1,36 @@
+name: "Build and push to ECR"
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+jobs:
+  BuildAndPushImageToECR:
+    name: "Build and Push to ECR"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-1 // region you want to push the image to
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push image to Amazon ECR 
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: "your-ecr-repo-name"
+          IMAGE_TAG: v1
+        run: |
+          docker build -t $ECR_REGISTRY/agora_dev:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/agora_dev:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/agora_dev:$IMAGE_TAG"
