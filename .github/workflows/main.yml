@@ -78,7 +78,7 @@ jobs:
           HMS_DOMAIN: ${{ secrets.HMS_DOMAIN }}
         run: |
           helm install agora-server-chart ./agora-server-chart \
-            --set mongodb="mongodb+srv://dev:rootdev@agora-c1.aiugb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority" \
+            --set mongodb="$MONGODB" \
             --set secretKey="$SECRET_KEY" \
             --set hmsAppAccessKey="$HMS_APP_ACCESS_KEY" \
             --set hmsAppSecret="$HMS_APP_SECRET" \
