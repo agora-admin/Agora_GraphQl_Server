@@ -59,7 +59,7 @@ jobs:
           
       - name: Uninstall existing Helm release (if it exists)
         run: |
-          helm uninstall unique-release-name || true
+          helm uninstall agora-server-chart || true
           ignoreErrors: true
 
       - name: Deploy nodejs Helm chart to EKS
@@ -90,4 +90,4 @@ jobs:
             --set lpBaseUrl="$LP_BASE_URL" \
             --set hmsBeamUrl="$HMS_BEAM_URL" \
             --set hmsDomain="$HMS_DOMAIN"
-            --name unique-release-name
+
