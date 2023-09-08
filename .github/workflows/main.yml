@@ -74,18 +74,18 @@ jobs:
 
       - name: Deploy nodejs Helm chart to EKS
         env:
-          MONGODB: ${{secrets.MONGODB}}
-          SECRET_KEY: ${{secrets.SECRET_KEY}}
-          HMS_APP_ACCESS_KEY: ${{secrets.HMS_APP_ACCESS_KEY}}
-          HMS_APP_SECRET: ${{secrets.HMS_APP_SECRET}}
-          NODE_ENV: ${{secrets.NODE_ENV}}
-          HMS_DISCOURSE_TEMPLATE: ${{secrets.HMS_DISCOURSE_TEMPLATE}}
-          HMS_URI: ${{secrets.HMS_URI}}
-          ADMIN_SERVER_TOKEN: ${{secrets.ADMIN_SERVER_TOKEN}}
-          LP_KEY: ${{secrets.LP_KEY}}
-          LP_BASE_URL: ${{secrets.LP_BASE_URL}}
-          HMS_BEAM_URL: ${{secrets.HMS_BEAM_URL}}
-          HMS_DOMAIN: ${{secrets.HMS_DOMAIN}}
+          MONGODB: ${{ secrets.MONGODB }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          HMS_APP_ACCESS_KEY: ${{ secrets.HMS_APP_ACCESS_KEY }}
+          HMS_APP_SECRET: ${{ secrets.HMS_APP_SECRET }}
+          NODE_ENV: ${{ secrets.NODE_ENV }}
+          HMS_DISCOURSE_TEMPLATE: ${{ secrets.HMS_DISCOURSE_TEMPLATE }}
+          HMS_URI: ${{ secrets.HMS_URI }}
+          ADMIN_SERVER_TOKEN: ${{ secrets.ADMIN_SERVER_TOKEN }}
+          LP_KEY: ${{ secrets.LP_KEY }}
+          LP_BASE_URL: ${{ secrets.LP_BASE_URL }}
+          HMS_BEAM_URL: ${{ secrets.HMS_BEAM_URL }}
+          HMS_DOMAIN: ${{ secrets.HMS_DOMAIN }}
         run: |
           helm install agora-server-chart ./agora-server-chart \
             --set mongodb="$MONGODB" \
@@ -100,3 +100,4 @@ jobs:
             --set lpBaseUrl="$LP_BASE_URL" \
             --set hmsBeamUrl="$HMS_BEAM_URL" \
             --set hmsDomain="$HMS_DOMAIN"
+            --generate-name
