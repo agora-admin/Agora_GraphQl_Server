@@ -60,7 +60,7 @@ jobs:
       - name: Uninstall existing Helm release (if it exists)
         run: |
           helm uninstall agora-server-chart || true
-          ignoreErrors: true
+    
 
       - name: Deploy nodejs Helm chart to EKS
         env:
