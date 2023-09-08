@@ -53,9 +53,12 @@ jobs:
         run: |
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
-
+      - name: update deployment files 
+        run : |
+          kubectl apply -f deployment.yaml
+          
       - name: Update kube config
-        run: aws eks update-kubeconfig --name agora-dev-cluster
+        run: aws eks update-kubeconfig --name agora-dev-cluster 
           
       - name: Uninstall existing Helm release (if it exists)
         run: |
