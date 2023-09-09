@@ -45,6 +45,12 @@ jobs:
         run: aws eks update-kubeconfig --name agora-dev-cluster 
         env:
           KUBECONFIG: $HOME/.kube/config
+      - name: Delete Kubernetes Secret
+        run: |
+          aws eks update-kubeconfig --name agora-dev-cluster --region us-east-2
+          kubectl delete secret app-secrets
+        env:
+          KUBECONFIG: $HOME/.kube/config
 
       - name: Create Kubernetes Secrets
         run: |
