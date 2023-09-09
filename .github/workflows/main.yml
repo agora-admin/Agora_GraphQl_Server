@@ -11,19 +11,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env:
-      MONGODB: ${{secrets.MONGODB}}
-      SECRET_KEY: ${{secrets.SECRET_KEY}}
-      HMS_APP_ACCESS_KEY: ${{secrets.HMS_APP_ACCESS_KEY}}
-      HMS_APP_SECRET: ${{secrets.HMS_APP_SECRET}}
-      NODE_ENV: ${{secrets.NODE_ENV}}
-      HMS_DISCOURSE_TEMPLATE: ${{secrets.HMS_DISCOURSE_TEMPLATE}}
-      HMS_URI: ${{secrets.HMS_URI}}
-      ADMIN_SERVER_TOKEN: ${{secrets.ADMIN_SERVER_TOKEN}}
-      LP_KEY: ${{secrets.LP_KEY}}
-      LP_BASE_URL: ${{secrets.LP_BASE_URL}}
-      HMS_BEAM_URL: ${{secrets.HMS_BEAM_URL}}
-      HMS_DOMAIN: ${{secrets.HMS_DOMAIN}}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -40,34 +27,6 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
-      - name: Debug Kubeconfig
-        run: |
-          kubectl config view
-          kubectl config current-context
-      - name: Fetch GitHub Secrets
-        run: |
-          echo "apiVersion: v1" > secrets.yaml
-          echo "kind: Secret" >> secrets.yaml
-          echo "metadata:" >> secrets.yaml
-          echo "  name: my-secrets" >> secrets.yaml
-          echo "type: Opaque" >> secrets.yaml
-          echo "data:" >> secrets.yaml
-          echo "  MONGODB: \$(echo -n \${{secrets.MONGODB}} | base64)" >> secrets.yaml
-          echo "  SECRET_KEY: \$(echo -n \${{secrets.SECRET_KEY}} | base64)" >> secrets.yaml
-          echo "  HMS_APP_ACCESS_KEY: \$(echo -n \${{secrets.HMS_APP_ACCESS_KEY}} | base64)" >> secrets.yaml
-          echo "  HMS_APP_SECRET: \$(echo -n \${{secrets.HMS_APP_SECRET}} | base64)" >> secrets.yaml
-          echo "  NODE_ENV: \$(echo -n \${{secrets.NODE_ENV}} | base64)" >> secrets.yaml
-          echo "  HMS_DISCOURSE_TEMPLATE: \$(echo -n \${{secrets.HMS_DISCOURSE_TEMPLATE}} | base64)" >> secrets.yaml
-          echo "  HMS_URI: \$(echo -n \${{secrets.HMS_URI}} | base64)" >> secrets.yaml
-          echo "  ADMIN_SERVER_TOKEN: \$(echo -n \${{secrets.ADMIN_SERVER_TOKEN}} | base64)" >> secrets.yaml
-          echo "  LP_KEY: \$(echo -n \${{secrets.LP_KEY}} | base64)" >> secrets.yaml
-          echo "  LP_BASE_URL: \$(echo -n \${{secrets.LP_BASE_URL}} | base64)" >> secrets.yaml
-          echo "  HMS_BEAM_URL: \$(echo -n \${{secrets.HMS_BEAM_URL}} | base64)" >> secrets.yaml
-          echo "  HMS_DOMAIN: \$(echo -n \${{secrets.HMS_DOMAIN}} | base64)" >> secrets.yaml
-        shell: bash
-
-      - name: Apply Kubernetes Secret
-        run: kubectl apply -f secrets.yaml
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -84,6 +43,34 @@ jobs:
           
       - name: Update kube config
         run: aws eks update-kubeconfig --name agora-dev-cluster 
+        env:
+          KUBECONFIG: $HOME/.kube/config
+
+      - name: Create Kubernetes Secrets
+        run: |
+          kubectl create secret generic app-secrets \
+            --from-literal=MONGODB="${{ secrets.MONGODB }}" \
+            --from-literal=SECRET_KEY="${{ secrets.SECRET_KEY }}" \
+            --from-literal=HMS_APP_ACCESS_KEY="${{ secrets.HMS_APP_ACCESS_KEY }}" \
+            --from-literal=HMS_APP_SECRET="${{ secrets.HMS_APP_SECRET }}" \
+            --from-literal=NODE_ENV="${{ secrets.NODE_ENV }}" \
+            --from-literal=HMS_DISCOURSE_TEMPLATE="${{ secrets.HMS_DISCOURSE_TEMPLATE }}" \
+            --from-literal=HMS_URI="${{ secrets.HMS_URI }}" \
+            --from-literal=ADMIN_SERVER_TOKEN="${{ secrets.ADMIN_SERVER_TOKEN }}" \
+            --from-literal=LP_KEY="${{ secrets.LP_KEY }}" \
+            --from-literal=LP_BASE_URL="${{ secrets.LP_BASE_URL }}" \
+            --from-literal=HMS_BEAM_URL="${{ secrets.HMS_BEAM_URL }}" \
+            --from-literal=ADMIN_SERVER_URL="${{ secrets.ADMIN_SERVER_URL }}" \
+            --from-literal=HMS_DOMAIN="${{ secrets.HMS_DOMAIN }}"
+            
+        env:
+          KUBECONFIG: $HOME/.kube/config
+
+      - name: Deploy to EKS
+        run: |
+          kubectl apply -f deployment.yaml
+        env:
+          KUBECONFIG: $HOME/.kube/config
           
       - name: Uninstall existing Helm release (if it exists)
         run: |
