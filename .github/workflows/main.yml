@@ -1,4 +1,4 @@
-name: deploy to EKS
+name: Deploy to EKS
 
 on:
   push:
@@ -11,29 +11,15 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env:
-      MONGODB: ${{secrets.MONGODB}}
-      SECRET_KEY: ${{secrets.SECRET_KEY}}
-      HMS_APP_ACCESS_KEY: ${{secrets.HMS_APP_ACCESS_KEY}}
-      HMS_APP_SECRET: ${{secrets.HMS_APP_SECRET}}
-      NODE_ENV: ${{secrets.NODE_ENV}}
-      HMS_DISCOURSE_TEMPLATE: ${{secrets.HMS_DISCOURSE_TEMPLATE}}
-      HMS_URI: ${{secrets.HMS_URI}}
-      ADMIN_SERVER_TOKEN: ${{secrets.ADMIN_SERVER_TOKEN}}
-      LP_KEY: ${{secrets.LP_KEY}}
-      LP_BASE_URL: ${{secrets.LP_BASE_URL}}
-      HMS_BEAM_URL: ${{secrets.HMS_BEAM_URL}}
-      HMS_DOMAIN: ${{secrets.HMS_DOMAIN}}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
-
+        uses: actions/checkout@v2
+      
       - name: Install kubectl
-        uses: azure/setup-kubectl@v2.0
+        uses: azure/setup-kubectl@v1
         with:
-          version: 'v1.27.0' # default is latest stable
-        id: install
-
+          kubectl-version: 'latest'
+      
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -45,7 +31,7 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Build, tag, and push docker image to Amazon ECR
+      - name: Build, tag, and push Docker image to Amazon ECR
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: agora-dev
@@ -54,40 +40,37 @@ jobs:
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
-      - name: Update kube config
-        run: aws eks update-kubeconfig --name agora-dev-cluster
-          
+      - name: Configure kubectl with EKS cluster
+        run: aws eks update-kubeconfig --name agora-dev-cluster --region us-east-2
+
+      - name: Delete Kubernetes Secret if it exists
+        run: |
+          kubectl delete secret app-secrets || true
+        continue-on-error: true
+      
+      - name: Create Kubernetes Secrets
+        run: |
+          kubectl create secret generic app-secrets \
+            --from-literal=MONGODB="${{ secrets.MONGODB }}" \
+            --from-literal=SECRET_KEY="${{ secrets.SECRET_KEY }}" \
+            --from-literal=HMS_APP_ACCESS_KEY="${{ secrets.HMS_APP_ACCESS_KEY }}" \
+            --from-literal=HMS_APP_SECRET="${{ secrets.HMS_APP_SECRET }}" \
+            --from-literal=NODE_ENV="${{ secrets.NODE_ENV }}" \
+            --from-literal=HMS_DISCOURSE_TEMPLATE="${{ secrets.HMS_DISCOURSE_TEMPLATE }}" \
+            --from-literal=HMS_URI="${{ secrets.HMS_URI }}" \
+            --from-literal=ADMIN_SERVER_TOKEN="${{ secrets.ADMIN_SERVER_TOKEN }}" \
+            --from-literal=LP_KEY="${{ secrets.LP_KEY }}" \
+            --from-literal=LP_BASE_URL="${{ secrets.LP_BASE_URL }}" \
+            --from-literal=HMS_BEAM_URL="${{ secrets.HMS_BEAM_URL }}" \
+            --from-literal=ADMIN_SERVER_URL="${{ secrets.ADMIN_SERVER_URL }}" \
+            --from-literal=HMS_DOMAIN="${{ secrets.HMS_DOMAIN }}"
+        continue-on-error: true
+
       - name: Uninstall existing Helm release (if it exists)
         run: |
           helm uninstall agora-server-chart || true
-    
+        continue-on-error: true
 
       - name: Deploy nodejs Helm chart to EKS
-        env:
-          MONGODB: ${{ secrets.MONGODB }}
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          HMS_APP_ACCESS_KEY: ${{ secrets.HMS_APP_ACCESS_KEY }}
-          HMS_APP_SECRET: ${{ secrets.HMS_APP_SECRET }}
-          NODE_ENV: ${{ secrets.NODE_ENV }}
-          HMS_DISCOURSE_TEMPLATE: ${{ secrets.HMS_DISCOURSE_TEMPLATE }}
-          HMS_URI: ${{ secrets.HMS_URI }}
-          ADMIN_SERVER_TOKEN: ${{ secrets.ADMIN_SERVER_TOKEN }}
-          LP_KEY: ${{ secrets.LP_KEY }}
-          LP_BASE_URL: ${{ secrets.LP_BASE_URL }}
-          HMS_BEAM_URL: ${{ secrets.HMS_BEAM_URL }}
-          HMS_DOMAIN: ${{ secrets.HMS_DOMAIN }}
         run: |
-          helm install agora-server-chart ./agora-server-chart \
-            --set mongodb="$MONGODB" \
-            --set secretKey="$SECRET_KEY" \
-            --set hmsAppAccessKey="$HMS_APP_ACCESS_KEY" \
-            --set hmsAppSecret="$HMS_APP_SECRET" \
-            --set nodeEnv="$NODE_ENV" \
-            --set hmsDiscourseTemplate="$HMS_DISCOURSE_TEMPLATE" \
-            --set hmsUri="$HMS_URI" \
-            --set adminServerToken="$ADMIN_SERVER_TOKEN" \
-            --set lpKey="$LP_KEY" \
-            --set lpBaseUrl="$LP_BASE_URL" \
-            --set hmsBeamUrl="$HMS_BEAM_URL" \
-            --set hmsDomain="$HMS_DOMAIN"
-
+          helm install agora-server-chart ./agora-server-chart
