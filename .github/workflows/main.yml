@@ -40,6 +40,31 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
+          
+      - name: Fetch GitHub Secrets
+        run: |
+          echo "apiVersion: v1" > secrets.yaml
+          echo "kind: Secret" >> secrets.yaml
+          echo "metadata:" >> secrets.yaml
+          echo "  name: my-secrets" >> secrets.yaml
+          echo "type: Opaque" >> secrets.yaml
+          echo "data:" >> secrets.yaml
+          echo "  MONGODB: \$(echo -n \${{secrets.MONGODB}} | base64)" >> secrets.yaml
+          echo "  SECRET_KEY: \$(echo -n \${{secrets.SECRET_KEY}} | base64)" >> secrets.yaml
+          echo "  HMS_APP_ACCESS_KEY: \$(echo -n \${{secrets.HMS_APP_ACCESS_KEY}} | base64)" >> secrets.yaml
+          echo "  HMS_APP_SECRET: \$(echo -n \${{secrets.HMS_APP_SECRET}} | base64)" >> secrets.yaml
+          echo "  NODE_ENV: \$(echo -n \${{secrets.NODE_ENV}} | base64)" >> secrets.yaml
+          echo "  HMS_DISCOURSE_TEMPLATE: \$(echo -n \${{secrets.HMS_DISCOURSE_TEMPLATE}} | base64)" >> secrets.yaml
+          echo "  HMS_URI: \$(echo -n \${{secrets.HMS_URI}} | base64)" >> secrets.yaml
+          echo "  ADMIN_SERVER_TOKEN: \$(echo -n \${{secrets.ADMIN_SERVER_TOKEN}} | base64)" >> secrets.yaml
+          echo "  LP_KEY: \$(echo -n \${{secrets.LP_KEY}} | base64)" >> secrets.yaml
+          echo "  LP_BASE_URL: \$(echo -n \${{secrets.LP_BASE_URL}} | base64)" >> secrets.yaml
+          echo "  HMS_BEAM_URL: \$(echo -n \${{secrets.HMS_BEAM_URL}} | base64)" >> secrets.yaml
+          echo "  HMS_DOMAIN: \$(echo -n \${{secrets.HMS_DOMAIN}} | base64)" >> secrets.yaml
+        shell: bash
+
+      - name: Apply Kubernetes Secret
+        run: kubectl apply -f secrets.yaml
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -60,34 +85,8 @@ jobs:
       - name: Uninstall existing Helm release (if it exists)
         run: |
           helm uninstall agora-server-chart || true
-    
 
       - name: Deploy nodejs Helm chart to EKS
-        env:
-          MONGODB: ${{ secrets.MONGODB }}
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          HMS_APP_ACCESS_KEY: ${{ secrets.HMS_APP_ACCESS_KEY }}
-          HMS_APP_SECRET: ${{ secrets.HMS_APP_SECRET }}
-          NODE_ENV: ${{ secrets.NODE_ENV }}
-          HMS_DISCOURSE_TEMPLATE: ${{ secrets.HMS_DISCOURSE_TEMPLATE }}
-          HMS_URI: ${{ secrets.HMS_URI }}
-          ADMIN_SERVER_TOKEN: ${{ secrets.ADMIN_SERVER_TOKEN }}
-          LP_KEY: ${{ secrets.LP_KEY }}
-          LP_BASE_URL: ${{ secrets.LP_BASE_URL }}
-          HMS_BEAM_URL: ${{ secrets.HMS_BEAM_URL }}
-          HMS_DOMAIN: ${{ secrets.HMS_DOMAIN }}
         run: |
-          helm install agora-server-chart ./agora-server-chart \
-            --set MONGODB="$MONGODB" \
-            --set SECRET_KEY="$SECRET_KEY" \
-            --set HMS_APP_ACCESS_KEY="$HMS_APP_ACCESS_KEY" \
-            --set HMS_APP_SECRET="$HMS_APP_SECRET" \
-            --set NODE_ENV="$NODE_ENV" \
-            --set HMS_DISCOURSE_TEMPLATE="$HMS_DISCOURSE_TEMPLATE" \
-            --set HMS_URI="$HMS_URI" \
-            --set ADMIN_SERVER_TOKEN="$ADMIN_SERVER_TOKEN" \
-            --set LP_KEY="$LP_KEY" \
-            --set LP_BASE_URL="$LP_BASE_URL" \
-            --set HMS_BEAM_URL="$HMS_BEAM_URL" \
-            --set HMS_DOMAIN="$HMS_DOMAIN"
+          helm install agora-server-chart ./agora-server-chart 
 
