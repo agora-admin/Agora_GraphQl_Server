@@ -1,4 +1,4 @@
-name: deploy to EKS
+name: Deploy to EKS
 
 on:
   push:
@@ -13,14 +13,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
-
+        uses: actions/checkout@v2
+      
       - name: Install kubectl
-        uses: azure/setup-kubectl@v2.0
+        uses: azure/setup-kubectl@v1
         with:
-          version: 'v1.27.0' # default is latest stable
-        id: install
-
+          kubectl-version: 'latest'
+      
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -32,7 +31,7 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Build, tag, and push docker image to Amazon ECR
+      - name: Build, tag, and push Docker image to Amazon ECR
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: agora-dev
@@ -40,18 +39,15 @@ jobs:
         run: |
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
-          
-      - name: Update kube config
-        run: aws eks update-kubeconfig --name agora-dev-cluster 
-        env:
-          KUBECONFIG: $HOME/.kube/config
-      - name: Delete Kubernetes Secret
-        run: |
-          aws eks update-kubeconfig --name agora-dev-cluster --region us-east-2
-          kubectl delete secret app-secrets
-        env:
-          KUBECONFIG: $HOME/.kube/config
 
+      - name: Configure kubectl with EKS cluster
+        run: aws eks update-kubeconfig --name agora-dev-cluster --region us-east-2
+
+      - name: Delete Kubernetes Secret if it exists
+        run: |
+          kubectl delete secret app-secrets || true
+        continue-on-error: true
+      
       - name: Create Kubernetes Secrets
         run: |
           kubectl create secret generic app-secrets \
@@ -68,15 +64,13 @@ jobs:
             --from-literal=HMS_BEAM_URL="${{ secrets.HMS_BEAM_URL }}" \
             --from-literal=ADMIN_SERVER_URL="${{ secrets.ADMIN_SERVER_URL }}" \
             --from-literal=HMS_DOMAIN="${{ secrets.HMS_DOMAIN }}"
-            
-        env:
-          KUBECONFIG: $HOME/.kube/config
-          
+        continue-on-error: true
+
       - name: Uninstall existing Helm release (if it exists)
         run: |
           helm uninstall agora-server-chart || true
+        continue-on-error: true
 
       - name: Deploy nodejs Helm chart to EKS
         run: |
-          helm install agora-server-chart ./agora-server-chart 
-
+          helm install agora-server-chart ./agora-server-chart
