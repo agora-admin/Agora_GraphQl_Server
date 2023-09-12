@@ -11,6 +11,7 @@ image:
   tag: "latest"
 
 imagePullSecrets: []
+
 nameOverride: ""
 fullnameOverride: ""
 
