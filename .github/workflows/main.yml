@@ -63,7 +63,8 @@ jobs:
             --from-literal=LP_BASE_URL="${{ secrets.LP_BASE_URL }}" \
             --from-literal=HMS_BEAM_URL="${{ secrets.HMS_BEAM_URL }}" \
             --from-literal=ADMIN_SERVER_URL="${{ secrets.ADMIN_SERVER_URL }}" \
-            --from-literal=HMS_DOMAIN="${{ secrets.HMS_DOMAIN }}"
+            --from-literal=HMS_DOMAIN="${{ secrets.HMS_DOMAIN }}" \
+            --from-literal=PORT="${{ secrets.PORT }}"
         continue-on-error: true
 
       - name: Uninstall existing Helm release (if it exists)
