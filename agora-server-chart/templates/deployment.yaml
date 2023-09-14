@@ -111,6 +111,11 @@ spec:
             secretKeyRef:
               name: app-secrets
               key: ADMIN_SERVER_URL
+        - name: PORT
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: PORT
         resources:
 {{- toYaml .Values.resources | nindent 12 }}
 {{- with .Values.nodeSelector }}
