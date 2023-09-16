@@ -43,20 +43,10 @@ spec:
           httpGet:
             path: /ready
             port: 3000
-              ports:
+        ports:
         - name: http
           containerPort: {{ .Values.service.targetPort }}
           protocol: TCP
-        livenessProbe:
-          initialDelaySeconds: {{ .Values.initialDelaySeconds }}
-          httpGet:
-            path: /
-            port: http
-        readinessProbe:
-          initialDelaySeconds: {{ .Values.initialDelaySeconds }}
-          httpGet:
-            path: /
-            port: http
         env:
         - name: MONGODB
           valueFrom:
