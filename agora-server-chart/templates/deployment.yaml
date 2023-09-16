@@ -37,14 +37,6 @@ spec:
         - name: http
           containerPort: {{ .Values.service.targetPort }}
           protocol: TCP
-        livenessProbe:
-          httpGet:
-            path: /
-            port: http
-        readinessProbe:
-          httpGet:
-            path: /
-            port: http
         env:
         - name: MONGODB
           valueFrom:
@@ -111,6 +103,27 @@ spec:
             secretKeyRef:
               name: app-secrets
               key: ADMIN_SERVER_URL
+        - name: PORT
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: PORT
+        livenessProbe:
+          initialDelaySeconds: {{ .Values.initialDelaySeconds }}
+          httpGet:
+            path: /
+            port: 3000
+            httpHeaders:
+            - name: Accept
+              value: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+        readinessProbe:
+          initialDelaySeconds: {{ .Values.initialDelaySeconds }}
+          httpGet:
+            path: /
+            port: 3000
+            httpHeaders:
+            - name: Accept
+              value: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
         resources:
 {{- toYaml .Values.resources | nindent 12 }}
 {{- with .Values.nodeSelector }}
