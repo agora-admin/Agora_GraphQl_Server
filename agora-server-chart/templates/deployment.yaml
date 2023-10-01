@@ -112,7 +112,7 @@ spec:
           initialDelaySeconds: {{ .Values.initialDelaySeconds }}
           httpGet:
             path: /
-            port: 3000
+            port: 80
             httpHeaders:
             - name: Accept
               value: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
@@ -120,7 +120,7 @@ spec:
           initialDelaySeconds: {{ .Values.initialDelaySeconds }}
           httpGet:
             path: /
-            port: 3000
+            port: 80
             httpHeaders:
             - name: Accept
               value: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
