@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ $fullName }}
+  name: {{ include "agora-server-chart.fullname" . }}
   labels:
     {{- include "agora-server-chart.labels" . | nindent 4 }}
 {{- if .Values.ingress.annotations }}
