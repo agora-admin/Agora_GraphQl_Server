@@ -3,49 +3,48 @@ kind: Ingress
 metadata:
   name: {{ include "agora-server-chart.fullname" . }}
   labels:
-{{- include "agora-server-chart.labels" . | nindent 4 }}
-{{- if .Values.ingress.annotations }}
+    {{- include "agora-server-chart.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
   annotations:
-    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-2:875306317082:certificate/da85eba1-c8a9-4790-8e09-efd756c6731c
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-west-2:xxxxx:certificate/xxxxxxx
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
     alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": {"Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
-{{- toYaml . | nindent 4 }}
-{{- end }}
+    alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
-{{- if and .Values.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
+  {{- if and .Values.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
   ingressClassName: {{ .Values.ingress.className }}
-{{- end }}
-{{- if .Values.ingress.tls }}
+  {{- end }}
+  {{- if .Values.ingress.tls }}
   tls:
-{{- range .Values.ingress.tls }}
+    {{- range .Values.ingress.tls }}
     - hosts:
-{{- range .hosts }}
+        {{- range .hosts }}
         - {{ . | quote }}
-{{- end }}
+        {{- end }}
       secretName: {{ .secretName }}
-{{- end }}
-{{- end }}
+    {{- end }}
+  {{- end }}
   rules:
-{{- range .Values.ingress.hosts }}
+    {{- range .Values.ingress.hosts }}
     - host: {{ .host | quote }}
       http:
         paths:
-{{- range .paths }}
+          {{- range .paths }}
           - path: {{ .path }}
-{{- if and .pathType (semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion) }}
+            {{- if and .pathType (semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion) }}
             pathType: {{ .pathType }}
-{{- end }}
+            {{- end }}
             backend:
-{{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
+              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
               service:
                 name: agora-server
                 port:
                   number: 80  # Specify the correct service name and port
-{{- else }}
+              {{- else }}
               serviceName: agora-server
               servicePort: 80  # Specify the correct service name and port
-{{- end }}
-{{- end }}
-{{- end }}
-{{- end }}
+              {{- end }}
+          {{- end }}
+    {{- end }}
