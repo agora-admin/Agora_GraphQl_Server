@@ -22,7 +22,7 @@ podSecurityContext: {}
 securityContext: {}
 
 service:
-  type: NodePort
+  type: LoadBalancer
   port: 80
   targetPort: 3000
   protocol: TCP
