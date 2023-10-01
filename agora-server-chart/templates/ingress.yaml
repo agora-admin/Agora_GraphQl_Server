@@ -41,10 +41,10 @@ spec:
               service:
                 name: agora-server
                 port:
-                  number: 3000  # Specify the correct service name and port
+                  number: 80  # Specify the correct service name and port
 {{- else }}
               serviceName: agora-server
-              servicePort: 3000  # Specify the correct service name and port
+              servicePort: 80  # Specify the correct service name and port
 {{- end }}
 {{- end }}
 {{- end }}
