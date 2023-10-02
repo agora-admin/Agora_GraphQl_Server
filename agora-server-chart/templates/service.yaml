@@ -7,17 +7,9 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: 80
-      targetPort: {{ .Values.service.targetPort }}
-      protocol: {{ .Values.service.protocol }}
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
       name: http
-    - port: 443
-      targetPort: {{ .Values.service.targetPort }}
-      protocol: {{ .Values.service.protocol }}
-      name: https
   selector:
     {{- include "agora-server-chart.selectorLabels" . | nindent 4 }}
-  annotations:
-    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
-    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:us-east-2:875306317082:certificate/da85eba1-c8a9-4790-8e09-efd756c6731c
-    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https"
