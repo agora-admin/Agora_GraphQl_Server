@@ -24,7 +24,7 @@ securityContext: {}
 service:
   type: NodePort
   port: 80
-  targetPort: 3000
+  targetPort: 80
   protocol: TCP
   name: agora-server
 
@@ -39,7 +39,6 @@ ingress:
         - path: /
           pathType: ImplementationSpecific
   tls:
-    - secretName: agorasquare-tls-secret  # Use your TLS secret name
       hosts:
         - api.agorasquare.io
 
