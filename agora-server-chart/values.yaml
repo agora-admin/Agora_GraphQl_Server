@@ -37,8 +37,9 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  type: ClusterIP
+  type: LoadBalancer
   port: 80
+  targetPort : 80
 
 ingress:
   enabled: false
@@ -80,3 +81,5 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+initialDelaySeconds: 60
