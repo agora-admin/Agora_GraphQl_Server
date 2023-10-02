@@ -40,38 +40,38 @@ jobs:
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
-      - name: Configure kubectl with EKS cluster
-        run: aws eks update-kubeconfig --name agora-dev-cluster --region us-east-2
+      # - name: Configure kubectl with EKS cluster
+      #   run: aws eks update-kubeconfig --name agora-dev-cluster --region us-east-2
 
-      - name: Delete Kubernetes Secret if it exists
-        run: |
-          kubectl delete secret app-secrets || true
-        continue-on-error: true
+      # - name: Delete Kubernetes Secret if it exists
+      #   run: |
+      #     kubectl delete secret app-secrets || true
+      #   continue-on-error: true
       
-      - name: Create Kubernetes Secrets
-        run: |
-          kubectl create secret generic app-secrets \
-            --from-literal=MONGODB="${{ secrets.MONGODB }}" \
-            --from-literal=SECRET_KEY="${{ secrets.SECRET_KEY }}" \
-            --from-literal=HMS_APP_ACCESS_KEY="${{ secrets.HMS_APP_ACCESS_KEY }}" \
-            --from-literal=HMS_APP_SECRET="${{ secrets.HMS_APP_SECRET }}" \
-            --from-literal=NODE_ENV="${{ secrets.NODE_ENV }}" \
-            --from-literal=HMS_DISCOURSE_TEMPLATE="${{ secrets.HMS_DISCOURSE_TEMPLATE }}" \
-            --from-literal=HMS_URI="${{ secrets.HMS_URI }}" \
-            --from-literal=ADMIN_SERVER_TOKEN="${{ secrets.ADMIN_SERVER_TOKEN }}" \
-            --from-literal=LP_KEY="${{ secrets.LP_KEY }}" \
-            --from-literal=LP_BASE_URL="${{ secrets.LP_BASE_URL }}" \
-            --from-literal=HMS_BEAM_URL="${{ secrets.HMS_BEAM_URL }}" \
-            --from-literal=ADMIN_SERVER_URL="${{ secrets.ADMIN_SERVER_URL }}" \
-            --from-literal=HMS_DOMAIN="${{ secrets.HMS_DOMAIN }}" \
-            --from-literal=PORT="${{ secrets.PORT }}"
-        continue-on-error: true
+      # - name: Create Kubernetes Secrets
+      #   run: |
+      #     kubectl create secret generic app-secrets \
+      #       --from-literal=MONGODB="${{ secrets.MONGODB }}" \
+      #       --from-literal=SECRET_KEY="${{ secrets.SECRET_KEY }}" \
+      #       --from-literal=HMS_APP_ACCESS_KEY="${{ secrets.HMS_APP_ACCESS_KEY }}" \
+      #       --from-literal=HMS_APP_SECRET="${{ secrets.HMS_APP_SECRET }}" \
+      #       --from-literal=NODE_ENV="${{ secrets.NODE_ENV }}" \
+      #       --from-literal=HMS_DISCOURSE_TEMPLATE="${{ secrets.HMS_DISCOURSE_TEMPLATE }}" \
+      #       --from-literal=HMS_URI="${{ secrets.HMS_URI }}" \
+      #       --from-literal=ADMIN_SERVER_TOKEN="${{ secrets.ADMIN_SERVER_TOKEN }}" \
+      #       --from-literal=LP_KEY="${{ secrets.LP_KEY }}" \
+      #       --from-literal=LP_BASE_URL="${{ secrets.LP_BASE_URL }}" \
+      #       --from-literal=HMS_BEAM_URL="${{ secrets.HMS_BEAM_URL }}" \
+      #       --from-literal=ADMIN_SERVER_URL="${{ secrets.ADMIN_SERVER_URL }}" \
+      #       --from-literal=HMS_DOMAIN="${{ secrets.HMS_DOMAIN }}" \
+      #       --from-literal=PORT="${{ secrets.PORT }}"
+      #   continue-on-error: true
 
-      - name: Uninstall existing Helm release (if it exists)
-        run: |
-          helm uninstall agora-server-chart || true
-        continue-on-error: true
+      # - name: Uninstall existing Helm release (if it exists)
+      #   run: |
+      #     helm uninstall agora-server-chart || true
+      #   continue-on-error: true
 
-      - name: Deploy nodejs Helm chart to EKS
-        run: |
-          helm install agora-server-chart ./agora-server-chart
+      # - name: Deploy nodejs Helm chart to EKS
+      #   run: |
+      #     helm install agora-server-chart ./agora-server-chart
