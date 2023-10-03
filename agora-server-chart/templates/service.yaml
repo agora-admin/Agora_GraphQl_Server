@@ -9,9 +9,7 @@ metadata:
     service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https"
     kubernetes.io/ingress.class: alb
     service.beta.kubernetes.io/aws-load-balancer-eip-allocations: eipalloc-08a91f18969e0a63f
-    service.beta.kubernetes.io/aws-load-balancer-type: external
     service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
-    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
   labels:
     {{- include "agora-server-chart.labels" . | nindent 4 }}
 spec:
