@@ -4,7 +4,7 @@ COPY package*.json ./
 RUN apk add --no-cache python3 make g++
 RUN npm install
 COPY . .
-EXPOSE 3000
+EXPOSE 80
 CMD [ "node", "index.js" ]
 
 

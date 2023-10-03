@@ -1,0 +1,64 @@
+replicaCount: 1
+
+image:
+  repository: 875306317082.dkr.ecr.us-east-2.amazonaws.com/agora-server
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+imagePullSecrets: []
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: LoadBalancer
+  port: 80
+  targetPort: 80
+  protocol: TCP
+  name: agora-server
+
+ingress:
+  enabled: false  # Set this to true to enable Ingress
+  className: ""
+  annotations:
+    kubernetes.io/ingress.class: nginx  # Use your Ingress controller's class if different
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-2:875306317082:certificate/da85eba1-c8a9-4790-8e09-efd756c6731c
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
+  hosts:
+    - host: api.agorasquare.io
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+  tls:
+    - secretName: agorasquare-tls-secret  # Use your TLS secret name
+      hosts:
+        - api.agorasquare.io
+
+resources: {}
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+initialDelaySeconds: 60

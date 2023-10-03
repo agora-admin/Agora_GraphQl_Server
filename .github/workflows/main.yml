@@ -65,12 +65,12 @@ jobs:
             --from-literal=ADMIN_SERVER_URL="${{ secrets.ADMIN_SERVER_URL }}" \
             --from-literal=HMS_DOMAIN="${{ secrets.HMS_DOMAIN }}" \
             --from-literal=PORT="${{ secrets.PORT }}"
-        continue-on-error: true
+        continue-on-error: false
 
       - name: Uninstall existing Helm release (if it exists)
         run: |
           helm uninstall agora-server-chart || true
-        continue-on-error: true
+        continue-on-error: false
 
       - name: Deploy nodejs Helm chart to EKS
         run: |
