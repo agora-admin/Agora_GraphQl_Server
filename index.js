@@ -54,9 +54,9 @@ const server = new ApolloServer({
   cors: {
     credentials: true,
     origin: process.env.NODE_ENV === "development"? 
-    ["http://localhost:3000", "https://studio.apollographql.com","https://discourses.agorasquare.io","https:/devapi.agorasquare.io"] 
+    ["http://localhost:3000", "https://studio.apollographql.com","https://devdiscourses.agorasquare.io","https:/devapi.agorasquare.io"] 
     : 
-    ['https://www.agorasquare.xyz', 'https://testnet.discourses.agorasquare.xyz',"https://disourses.agorasquare.io","https://devapi.agorasquare.io"],
+    ['https://www.agorasquare.xyz', 'https://testnet.discourses.agorasquare.xyz',"https://devdisourses.agorasquare.io","https://devapi.agorasquare.io"],
   },
   introspection: process.env.NODE_ENV === "development" ? true : false,
 });
